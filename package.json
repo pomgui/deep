@@ -1,0 +1,35 @@
+{
+  "name": "@pomgui/deep",
+  "version": "0.0.1",
+  "description": "Ultrasmall footprint deepmerge, deepfreeze tools",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepare": "tsc",
+    "test": "jest",
+    "test:cover": "jest --coverage",
+    "preversion": "npm run prepare",
+    "version": "npm test && git add -A",
+    "postversion": "git push && git push --tags"
+  },
+  "keywords": [
+    "merge",
+    "deepmerge",
+    "lodash-like-merge",
+    "freeze",
+    "deepfreeze"
+  ],
+  "author": "Wilfredo Pomier <wpomier@pomgui.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pomgui/deep.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "typescript": "^4.6.3"
+  },
+  "files": [
+    "dist/*.js",
+    "dist/*.d.ts"
+  ]
+}
