@@ -17,6 +17,12 @@ For the most cases it is compatible with
 ### deepFreeze
 This method executes an recursive Object.freeze.
 
+### diff
+Compares two JSON objects and returns the delta (difference), optimizing bandwidth usage—ideal for PATCH requests in REST services.
+
+### patch
+Takes the diff's result and applies it into a JSON object, reconstructing the most recent version.
+
 ## Installation
 
 Using npm:
@@ -33,6 +39,7 @@ var { deepMerge } = require('@pomgui/deep');
 With typescript:
  ```typescript
 import { deepMerge } from '@pomgui/deep';
+import { diff, patch } from '@pomgui/deep';
 ```
 
 ## Usage
@@ -59,4 +66,34 @@ const frozenArr = deepFreeze(obj1, obj2, obj3);
 // frozenArr[1] === obj2
 // frozenArr[2] === obj3
 
+```
+
+### diff & patch
+
+```js
+const a = {
+  foo: {
+    bar: {
+      a: ["a", "b"],
+      b: 2,
+      c: ["x", "y"],
+      e: 100,
+    },
+  },
+  buzz: "world",
+};
+
+const b = {
+  foo: {
+    bar: {
+      a: ["a"],
+      b: 2,
+      c: ["x", "y", "z"],
+      d: "Hello, world!",
+    },
+  },
+  buzz: "fizz",
+};
+
+expect(patch(a, diff(a, b))).toEqual(b);
 ```
