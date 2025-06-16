@@ -1,8 +1,12 @@
 The MIT License
 
-Copyright 2022 Wilfredo Pomier <wpomier@pomgui.com>
+Copyright 2025 Wilfredo Pomier <wpomier@pomgui.com>
 
-Some of the tests were imported from the project lodash (https://github.com/lodash/lodash/blob/master/test/merge.test.js), copyright JS Foundation and other contributors <https://js.foundation/> to provide certain level of compatibility.
+To provide certain level of compatibility, some of the tests were imported and/or
+adapted from:
+* The project lodash (https://github.com/lodash/lodash/blob/master/test/merge.test.js), copyright JS Foundation and other contributors <https://js.foundation/> 
+* Open Tech Foundation's diff (https://github.com/Open-Tech-Foundation/obj-diff/blob/main/packages/obj-diff/__tests__/diff.test.ts)
+* Open Tech Foundation's patch (https://github.com/Open-Tech-Foundation/obj-diff/blob/main/packages/obj-diff/__tests__/patch.test.ts)
 
 The following license applies to all parts of this software except as
 documented below:
