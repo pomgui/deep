@@ -32,7 +32,7 @@ export function patch<T>(obj: T, patches: DiffResult): T {
 }
 
 function set(obj: any, path: string, value: any): any {
-    const keys = path.split('.');
+    const keys = path.split(/(?<!\\)\./).map(k=>k.replace(/\\./g, '.'));
     const lastKey = keys.pop()!;
     for (let i = 0; i < keys.length; i++) {
         const k = keys[i];
@@ -44,7 +44,7 @@ function set(obj: any, path: string, value: any): any {
 }
 
 function unset(obj: any, path: string): void {
-    const keys = path.split('.');
+    const keys = path.split(/(?<!\\)\./).map(k=>k.replace(/\\./g, '.'));
     const lastKey = keys.pop()!;
     for (let i = 0; i < keys.length; i++) {
         const k = keys[i];

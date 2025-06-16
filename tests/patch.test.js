@@ -16,7 +16,7 @@ describe("patch", () => {
 
   test("deep objects", () => {
     const a = {
-      foo: {
+      'foo.foo': {
         bar: {
           a: ["a", "b"],
           b: 2,
@@ -28,7 +28,7 @@ describe("patch", () => {
     };
 
     const b = {
-      foo: {
+      'foo.foo': {
         bar: {
           a: ["a"],
           b: 2,

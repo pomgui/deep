@@ -99,8 +99,9 @@ function objDiff(
 }
 
 function getSubPath(path: string, sub: string|number): string {
-    if (path != '') return path + '.' + sub;
-    else return sub.toString();
+    const subkey = typeof sub=='string'? sub.replace('.', '\\.'): sub.toString();
+    if (path != '') return path + '.' + subkey;
+    else return subkey;
 }
 
 /**

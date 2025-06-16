@@ -203,4 +203,9 @@ describe("diff", () => {
         b.test1.push(2);
         expect(diff(a, b)).toEqual({ 'A:test1.1': 2, 'A:test2.1': 2 });
     });
+
+    test("escaping the dot in the path", ()=>{
+        const obj1 = {a: 1, "b.c": 2, d: 3};
+        expect(diff({}, obj1)).toEqual({'A:a':1, 'A:b\\.c': 2, 'A:d': 3});
+    })
 });
