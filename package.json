@@ -1,6 +1,6 @@
 {
   "name": "@pomgui/deep",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Ultrasmall footprint deepmerge, deepfreeze, diff, patch tools",
   "main": "dist/index.js",
   "scripts": {
