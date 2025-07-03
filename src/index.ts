@@ -1,4 +1,4 @@
 export { deepFreeze } from './deepfreeze';
 export { deepMerge } from './deepmerge';
-export { diff } from './diff';
+export { diff, DiffResult } from './diff';
 export { patch } from './patch';
