@@ -38,13 +38,13 @@ function objDiff(
                     )
                     );
                 } else
-                    result['D:' + apath] = 0;
+                    result['-' + apath] = 0;
             }
 
             for (let i = 0; i < (b as []).length; i++)
                 if (!Object.hasOwn(a, i)) {
                     const apath = getSubPath(path, i);
-                    result['A:' + apath] = (b as Array<unknown>)[i];
+                    result['+' + apath] = (b as Array<unknown>)[i];
                 }
 
             _refs.delete(a);
@@ -67,14 +67,14 @@ function objDiff(
                         _refs
                     ));
                 } else {
-                    result['D:' + apath] = 0;
+                    result['-' + apath] = 0;
                 }
             }
 
             for (const k of Object.keys(b))
                 if (!Object.hasOwn(a, k)) {
                     const apath = getSubPath(path, k);
-                    result['A:' + apath] = (b as Record<string, unknown>)[k];
+                    result['+' + apath] = (b as Record<string, unknown>)[k];
                 }
 
             _refs.delete(a);
@@ -84,16 +84,16 @@ function objDiff(
         }
 
         if (a instanceof Date && b instanceof Date) {
-            if (!Object.is(a.getTime(), (b as Date).getTime()))
-                return { ['C:' + path]: b };
+            if (!Object.is(a.getTime(), b.getTime()))
+                return { ['=' + path]: b };
         }
 
         if (Object.prototype.toString.call(a) !== Object.prototype.toString.call(b))
-            return { ['C:' + path]: b };
+            return { ['=' + path]: b };
 
     } else
         if (!Object.is(a, b))
-            return { ['C:' + path]: b };
+            return { ['=' + path]: b };
 
     return result;
 }

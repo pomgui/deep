@@ -14,17 +14,15 @@ import { DiffResult } from "./diff";
  * assert.deepStrictEqual(out, b); // ok
  */
 export function patch<T>(obj: T, patches: DiffResult): T {
-    const c = deepMerge(obj);
+    const c = deepMerge(Array.isArray(obj) ? [] : {}, obj) as T;
 
     for (const p in patches) {
-        if (p[1] == ':') {
-            if (p[0] == 'A' || p[0] == 'C') {
-                set(c, p.substring(2), patches[p]);
-            }
+        if (p[0] == '+' || p[0] == '=') {
+            set(c, p.substring(1), patches[p]);
+        }
 
-            if (p[0] == 'D') {
-                unset(c, p.substring(2));
-            }
+        if (p[0] == '-') {
+            unset(c, p.substring(1));
         }
     }
 
@@ -32,24 +30,26 @@ export function patch<T>(obj: T, patches: DiffResult): T {
 }
 
 function set(obj: any, path: string, value: any): any {
-    const keys = path.split(/(?<!\\)\./).map(k=>k.replace(/\\./g, '.'));
+    const keys = path.split(/(?<!\\)\./).map(k => k.replace(/\\./g, '.'));
     const lastKey = keys.pop()!;
     for (let i = 0; i < keys.length; i++) {
         const k = keys[i];
         const k2 = keys[i + 1];
-        if (!(k in obj)) obj[k] = /^\d+$/.test(k2) ? [] : {};
+        if (!(k in obj) || !obj[k] || typeof obj[k] != 'object')
+            obj[k] = /^\d+$/.test(k2 ?? lastKey) ? [] : {};
         obj = obj[k];
     }
     obj[lastKey] = value;
 }
 
 function unset(obj: any, path: string): void {
-    const keys = path.split(/(?<!\\)\./).map(k=>k.replace(/\\./g, '.'));
+    const keys = path.split(/(?<!\\)\./).map(k => k.replace(/\\./g, '.'));
     const lastKey = keys.pop()!;
     for (let i = 0; i < keys.length; i++) {
         const k = keys[i];
         if (!(k in obj)) return;
         obj = obj[k];
+        if (!obj) return;
     }
     delete obj[lastKey];
 }
