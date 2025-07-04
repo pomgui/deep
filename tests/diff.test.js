@@ -1,5 +1,4 @@
-const { deepMerge } = require('../dist/deepmerge');
-const { diff } = require('../dist/diff');
+const { deepMerge, diff } = require('../dist/index');
 
 describe("diff", () => {
     test("no params", () => {

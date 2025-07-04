@@ -1,5 +1,4 @@
-const {patch} = require('../dist/patch');
-const {diff} = require('../dist/diff');
+const {patch, diff} = require('../dist/index');
 
 describe("patch", () => {
   test("simple objects", () => {

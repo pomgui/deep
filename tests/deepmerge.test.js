@@ -1,4 +1,4 @@
-const { deepMerge } = require('../dist/deepmerge');
+const { deepMerge } = require('../dist/index');
 
 /**
  * Subset of `lodash.merge` tests

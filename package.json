@@ -3,10 +3,10 @@
   "version": "3.0.0",
   "description": "Ultrasmall footprint deepmerge, deepfreeze, diff, patch tools",
   "main": "dist/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/index.d.ts",
+  "module": "./dist/index.mjs",
   "scripts": {
-    "prepare": "tsc",
+    "prepare": "tsup",
+    "watch": "tsup --watch",
     "test": "jest",
     "test:cover": "jest --coverage",
     "preversion": "npm run prepare",
@@ -27,20 +27,18 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
   "license": "MIT",
   "devDependencies": {
     "jest": "^30.0.4",
+    "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   },
   "files": [
-    "dist/*.js",
-    "dist/esm/*.js",
-    "dist/*.d.ts"
+    "dist"
   ]
 }
