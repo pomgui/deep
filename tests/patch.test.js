@@ -1,4 +1,4 @@
-const {patch, diff} = require('../dist/index');
+const {patch, diff, deepMerge} = require('../dist/index');
 
 describe("patch", () => {
   test("simple objects", () => {
@@ -16,17 +16,18 @@ describe("patch", () => {
   test("overwriting values in the middle of path", () => {
     const a = {a: {b: null}};
     const d1 = {'=a.b.c': 10};
-    const p1 = patch(a, d1);
-    expect(p1).toEqual({a: {b: {c: 10}}});
-    expect(a).not.toEqual(p1);
+    patch(a, d1);
+    expect(a).toEqual({a: {b: {c: 10}}});
 
+    const a1 = {a: {b: null}};
     const d2 = {'=a.b.2': 10};
-    const p2 = patch(a, d2);
-    expect(p2).toEqual({a: {b: [undefined, undefined, 10]}});
+    patch(a1, d2);
+    expect(a1).toEqual({a: {b: [undefined, undefined, 10]}});
 
+    const a2 = {a: {b: null}};
     const d3 = {'=a.b.2.x': 10};
-    const p3 = patch(a, d3);
-    expect(p3).toEqual({a: {b: [undefined, undefined, {x:10}]}});
+    patch(a2, d3);
+    expect(a2).toEqual({a: {b: [undefined, undefined, {x:10}]}});
   });
 
   test("removing an unexistent path element", () => {

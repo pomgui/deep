@@ -1,4 +1,3 @@
-import { deepMerge } from "./deepmerge";
 import { DiffResult } from "./diff";
 
 /**
@@ -14,19 +13,17 @@ import { DiffResult } from "./diff";
  * assert.deepStrictEqual(out, b); // ok
  */
 export function patch<T>(obj: T, patches: DiffResult): T {
-    const c = deepMerge(Array.isArray(obj) ? [] : {}, obj) as T;
-
     for (const p in patches) {
         if (p[0] == '+' || p[0] == '=') {
-            set(c, p.substring(1), patches[p]);
+            set(obj, p.substring(1), patches[p]);
         }
 
         if (p[0] == '-') {
-            unset(c, p.substring(1));
+            unset(obj, p.substring(1));
         }
     }
 
-    return c;
+    return obj;
 }
 
 function set(obj: any, path: string, value: any): any {
