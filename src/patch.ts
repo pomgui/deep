@@ -1,3 +1,4 @@
+import { UNSAFE_KEYS } from "./const";
 import { DiffResult } from "./diff";
 
 /**
@@ -5,7 +6,7 @@ import { DiffResult } from "./diff";
  *
  * Some portions of this file is derivated from https://github.com/Open-Tech-Foundation/obj-diff/blob/main/packages/obj-diff/src/patch.ts
  * to use our version of diff.
- * 
+ *
  * @example
  * const a = {a: 1, b: 2};
  * const b = {a: 2, c: 3};
@@ -14,11 +15,11 @@ import { DiffResult } from "./diff";
  */
 export function patch<T>(obj: T, patches: DiffResult): T {
     for (const p in patches) {
-        if (p[0] == '+' || p[0] == '=') {
+        if (p[0] == "+" || p[0] == "=") {
             set(obj, p.substring(1), patches[p]);
         }
 
-        if (p[0] == '-') {
+        if (p[0] == "-") {
             unset(obj, p.substring(1));
         }
     }
@@ -27,12 +28,16 @@ export function patch<T>(obj: T, patches: DiffResult): T {
 }
 
 function set(obj: any, path: string, value: any): any {
-    const keys = path.split(/(?<!\\)\./).map(k => k.replace(/\\./g, '.'));
+    const keys = path.split(/(?<!\\)\./).map((k) => k.replace(/\\./g, "."));
+    if (keys.some((k) => UNSAFE_KEYS.has(k)))
+        throw new Error(
+            "@pomgui/deep!patch: Prototype pollution detected. Aborting patch process",
+        );
     const lastKey = keys.pop()!;
     for (let i = 0; i < keys.length; i++) {
         const k = keys[i];
         const k2 = keys[i + 1];
-        if (!(k in obj) || !obj[k] || typeof obj[k] != 'object')
+        if (!(k in obj) || !obj[k] || typeof obj[k] != "object")
             obj[k] = /^\d+$/.test(k2 ?? lastKey) ? [] : {};
         obj = obj[k];
     }
@@ -40,7 +45,11 @@ function set(obj: any, path: string, value: any): any {
 }
 
 function unset(obj: any, path: string): void {
-    const keys = path.split(/(?<!\\)\./).map(k => k.replace(/\\./g, '.'));
+    const keys = path.split(/(?<!\\)\./).map((k) => k.replace(/\\./g, "."));
+    if (keys.some((k) => UNSAFE_KEYS.has(k)))
+        throw new Error(
+            "@pomgui/deep!patch: Prototype pollution detected. Aborting patch process",
+        );
     const lastKey = keys.pop()!;
     for (let i = 0; i < keys.length; i++) {
         const k = keys[i];
